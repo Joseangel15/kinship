@@ -1,7 +1,37 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 export default function ThemeController() {
+  const [theme, setTheme] = useState("light");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  }, []);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTheme = e.target.checked ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+
   return (
     <label className="toggle text-base-content">
-      <input type="checkbox" value="dark" className="theme-controller" />
+      <input
+        type="checkbox"
+        value="dark"
+        className="theme-controller"
+        onChange={handleToggle}
+        checked={theme === "dark"}
+      />
 
       <svg
         aria-label="sun"

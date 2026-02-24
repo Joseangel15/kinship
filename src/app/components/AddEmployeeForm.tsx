@@ -1,34 +1,18 @@
-"use client";
+interface AddEmployeeFormProps {
+  submit: (e: React.FormEvent<HTMLFormElement>) => void;
+  pending: boolean;
+  message?: string;
+}
 
-import { useState } from "react";
-import { addEmployee } from "../actions/employee";
-
-export default function AddEmployeeForm() {
-  const [isPending, setIsPending] = useState(false);
-  const [message, setMessage] = useState("");
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsPending(true);
-    setMessage("");
-
-    const formData = new FormData(event.currentTarget);
-    const result = await addEmployee(formData);
-
-    setIsPending(false);
-
-    if (result.success) {
-      setMessage("✅ Employee added successfully!");
-      (event.target as HTMLFormElement).reset();
-    } else {
-      setMessage("❌ Error: Could not save employee.");
-    }
-  }
-
+export default function AddEmployeeForm({
+  submit,
+  pending,
+  message,
+}: AddEmployeeFormProps) {
   return (
     <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 max-w-md p-6 border rounded-lg shadow-sm"
+      onSubmit={submit}
+      className="flex flex-col gap-4 min-w-80 p-6 border rounded-lg shadow-sm bg-base-100"
     >
       <h2 className="text-xl font-bold mb-2">Add New Employee</h2>
       <div className="flex flex-col gap-1">
@@ -91,14 +75,26 @@ export default function AddEmployeeForm() {
           <option className="text-black" value="HR">
             HR
           </option>
+          <option className="text-black" value="Sales">
+            Sales
+          </option>
+          <option className="text-black" value="Management">
+            Management
+          </option>
+          <option className="text-black" value="Customer Service">
+            Customer Service
+          </option>
+          <option className="text-black" value="Accounting">
+            Accounting
+          </option>
         </select>
       </div>
       <button
         type="submit"
-        disabled={isPending}
-        className="mt-2 bg-blue-600 text-white p-2 rounded font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
+        disabled={pending}
+        className="mt-2 btn btn-primary text-white p-2 rounded font-semibold disabled:bg-gray-400 transition-colors"
       >
-        {isPending ? "Saving..." : "Add Employee"}
+        {pending ? "Saving..." : "Save Employee"}
       </button>
       {message && (
         <p

@@ -2,7 +2,7 @@ import { createClient } from "@libsql/client";
 
 // This connects to a local file. No C++ bindings required!
 export const db = createClient({
-  url: "file:kinship.db",
+  url: `file:${process.cwd()}/kinship.db`,
 });
 
 // Create the table if it doesn't exist
