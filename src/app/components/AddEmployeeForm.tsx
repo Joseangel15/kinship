@@ -4,6 +4,17 @@ interface AddEmployeeFormProps {
   message?: string;
 }
 
+export const departmentSelectionOptions = [
+  "Engineering",
+  "Design",
+  "Operations",
+  "HR",
+  "Sales",
+  "Management",
+  "Customer Service",
+  "Accounting",
+];
+
 export default function AddEmployeeForm({
   submit,
   pending,
@@ -26,6 +37,7 @@ export default function AddEmployeeForm({
           required
           className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="John"
+          maxLength={100}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -39,6 +51,7 @@ export default function AddEmployeeForm({
           required
           className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="Doe"
+          maxLength={100}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -52,6 +65,7 @@ export default function AddEmployeeForm({
           required
           className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder="john@kinship.com"
+          maxLength={100}
         />
       </div>
       <div className="flex flex-col gap-1">
@@ -63,30 +77,11 @@ export default function AddEmployeeForm({
           name="department"
           className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
         >
-          <option className="text-black" value="Engineering">
-            Engineering
-          </option>
-          <option className="text-black" value="Design">
-            Design
-          </option>
-          <option className="text-black" value="Operations">
-            Operations
-          </option>
-          <option className="text-black" value="HR">
-            HR
-          </option>
-          <option className="text-black" value="Sales">
-            Sales
-          </option>
-          <option className="text-black" value="Management">
-            Management
-          </option>
-          <option className="text-black" value="Customer Service">
-            Customer Service
-          </option>
-          <option className="text-black" value="Accounting">
-            Accounting
-          </option>
+          {departmentSelectionOptions.map((opt, index) => (
+            <option key={index} className="text-black" value={opt}>
+              {opt}
+            </option>
+          ))}
         </select>
       </div>
       <button
@@ -98,7 +93,7 @@ export default function AddEmployeeForm({
       </button>
       {message && (
         <p
-          className={`text-sm mt-2 font-medium ${message.includes("✅") ? "text-green-600" : "text-red-600"}`}
+          className={`text-sm text-center mt-2 font-medium ${message.includes("✅") ? "text-green-600" : "text-error"}`}
         >
           {message}
         </p>

@@ -7,6 +7,7 @@ export const db = createClient({
 
 // Create the table if it doesn't exist
 async function initDb() {
+  //Employees table
   await db.execute(`
     CREATE TABLE IF NOT EXISTS employees (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,6 +15,18 @@ async function initDb() {
       last_name TEXT NOT NULL,
       email TEXT UNIQUE NOT NULL,
       department TEXT
+    )
+  `);
+
+  //New Users table
+  await db.execute(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL, -- This will store the hashed password
+      role TEXT DEFAULT 'user',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 }
